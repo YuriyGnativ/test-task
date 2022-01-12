@@ -35,3 +35,7 @@ body {
 .block {
   height: 600px;
 }
+
+.ui.page.modals.dimmer.transition.visible.active {
+  z-index: 9999999 !important;
+}

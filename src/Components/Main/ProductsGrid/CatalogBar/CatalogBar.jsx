@@ -2,15 +2,33 @@ import React from "react";
 
 import { Menu, Icon, Dropdown } from "semantic-ui-react";
 
-import AddProductModal from "./AddProductModal";
+import ProductSettingsModal from "./ProductSettingsModal";
 
 import "./catalog-bar.scss";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actions from "../../../../Actions/products.actions";
 
-export default () => {
+export default connect(
+  () => ({}),
+  (dispatch) => ({
+    ...bindActionCreators(actions, dispatch),
+  })
+)(({ addNewProduct }) => {
   return (
     <div className="catalog-bar">
       <Menu>
-        <AddProductModal />
+        <ProductSettingsModal
+          title="Add New Product"
+          btnName="Add"
+          actionCreator={addNewProduct}
+          trigger={
+            <Menu.Item>
+              <Icon name="plus" />
+              Add
+            </Menu.Item>
+          }
+        />
         {/* <Menu.Item>
           <Icon name="remove" />
           Remove
@@ -30,4 +48,4 @@ export default () => {
       </Menu>
     </div>
   );
-};
+});

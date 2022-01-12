@@ -46,7 +46,7 @@ export default connect(
       weightField: {
         value: {
           num: "",
-          units: "",
+          units: ".g",
         },
         errors: {
           isError: false,
@@ -59,6 +59,51 @@ export default connect(
         text: "",
       },
     };
+    componentDidMount() {
+      const { currentData } = this.props;
+
+      if (currentData) {
+        this.setState(
+          {
+            open: false,
+            isFetching: false,
+            nameField: {
+              value: currentData.name,
+              errors: null,
+            },
+            countField: {
+              value: String(currentData.count),
+              errors: null,
+            },
+            imageLink: {
+              value: currentData.image_url,
+              errors: null,
+            },
+            descriptionField: {
+              value: currentData.description,
+              errors: null,
+            },
+            weightField: {
+              value: {
+                num: currentData.weight.match(/^\d+/)[0],
+                units: "." + currentData.weight.match(/\D+/)[0],
+              },
+              errors: {
+                isError: false,
+                text: "",
+              },
+            },
+            messageField: {
+              hidden: true,
+              text: "",
+            },
+          },
+          () => {
+            console.log(this.state);
+          }
+        );
+      }
+    }
 
     handleChange = (e) => {
       if (e.target.name === "weightField") {
@@ -90,7 +135,6 @@ export default connect(
         weightField,
         imageLink,
       } = this.state;
-      console.log(this.state);
 
       return new Promise((resolve, reject) => {
         if (!isURL(imageLink.value)) {
@@ -133,7 +177,6 @@ export default connect(
           !Number(weightField.value.num) ||
           !isNumeric(weightField.value.num)
         ) {
-          console.log("state", this.state);
           this.setState({
             weightField: {
               value: weightField.value,
@@ -157,17 +200,34 @@ export default connect(
           });
           reject();
         }
-        resolve({
-          name: nameField.value,
-          count: Number(countField.value),
-          description: descriptionField.value,
-          weight: weightField.value.num + weightField.value.units,
-          image_url: imageLink.value,
-          size: {
-            width: 200,
-            height: 500,
-          },
-        });
+        console.log(weightField.value.units.match(/\w+/)[0]);
+        console.log("current data:", this.state);
+        this.props.currentData
+          ? resolve({
+              id: this.props.currentData.id || null,
+              name: nameField.value,
+              count: Number(countField.value),
+              description: descriptionField.value,
+              weight:
+                weightField.value.num + weightField.value.units.match(/\w+/)[0],
+              image_url: imageLink.value,
+              size: {
+                width: 200,
+                height: 500,
+              },
+            })
+          : resolve({
+              name: nameField.value,
+              count: Number(countField.value),
+              description: descriptionField.value,
+              weight:
+                weightField.value.num + weightField.value.units.match(/\D+/)[0],
+              image_url: imageLink.value,
+              size: {
+                width: 200,
+                height: 500,
+              },
+            });
       });
     };
 
@@ -183,58 +243,29 @@ export default connect(
         isFetching,
       } = this.state;
 
-      const { addNewProduct } = this.props;
+      const {
+        title,
+        btnName,
+        trigger,
+        actionCreator,
+        closePopup,
+        data: { id },
+      } = this.props;
       return (
         <Modal
           onClose={() => {
             this.setState({ open: false });
+            typeof closePopup === "function"
+              ? closePopup(false)
+              : console.log();
           }}
           onOpen={() => {
-            this.setState({
-              open: true,
-              isFetching: false,
-              nameField: {
-                value: "",
-                errors: null,
-              },
-              countField: {
-                value: "",
-                errors: null,
-              },
-              imageLink: {
-                value: "",
-                errors: null,
-              },
-              descriptionField: {
-                value: "",
-                errors: null,
-              },
-              weightField: {
-                value: {
-                  num: "",
-                  units: "",
-                },
-                errors: {
-                  isError: false,
-                  text: "",
-                },
-              },
-
-              messageField: {
-                hidden: true,
-                text: "",
-              },
-            });
+            this.setState({ open: true });
           }}
           open={open}
-          trigger={
-            <Menu.Item>
-              <Icon name="plus" />
-              Add
-            </Menu.Item>
-          }
+          trigger={trigger}
         >
-          <Modal.Header>Add New Product</Modal.Header>
+          <Modal.Header>{title}</Modal.Header>
           <Modal.Content>
             <Segment>
               <Form>
@@ -306,7 +337,26 @@ export default connect(
                   <Input
                     label={
                       <Dropdown
-                        defaultValue=".g"
+                        onChange={(e) => {
+                          console.log(e);
+                          this.setState(
+                            {
+                              weightField: {
+                                value: {
+                                  num: weightField.value.num,
+                                  units: e.target.innerText,
+                                },
+                                errors: {
+                                  ...weightField.errors,
+                                },
+                              },
+                            },
+                            () => {
+                              console.log(this.state);
+                            }
+                          );
+                        }}
+                        defaultValue={weightField.value.units}
                         options={[
                           { key: ".g", text: ".g", value: ".g" },
                           { key: ".kg", text: ".kg", value: ".kg" },
@@ -375,38 +425,43 @@ export default connect(
             <Button
               disabled={isFetching}
               color="black"
-              onClick={() => this.setState({ open: false })}
+              onClick={() => {
+                this.setState({ open: false });
+                typeof closePopup === "function"
+                  ? closePopup(false)
+                  : console.log();
+              }}
             >
               Cancel
             </Button>
             <Button
               loading={isFetching}
-              content="Add"
+              content={btnName}
               labelPosition="right"
               icon="checkmark"
               onClick={() => {
                 this.validateFields()
                   .then((res) => {
-                    addNewProduct(res)
-                      // .then((res) => res.json())
-                      .then((res) => {
-                        const { error, message } = res;
-                        console.log(res);
-                        if (error) {
-                          this.setState({
-                            isFetching: false,
-                            messageField: {
-                              hidden: false,
-                              text: message,
-                            },
-                          });
-                        } else {
-                          this.setState({
-                            isFetching: false,
-                            open: false,
-                          });
-                        }
-                      });
+                    actionCreator(res).then((res) => {
+                      const { error, message } = res;
+                      if (error) {
+                        this.setState({
+                          isFetching: false,
+                          messageField: {
+                            hidden: false,
+                            text: message,
+                          },
+                        });
+                      } else {
+                        this.setState({
+                          isFetching: false,
+                          open: false,
+                        });
+                      }
+                      typeof closePopup === "function"
+                        ? closePopup(false)
+                        : console.log();
+                    });
                   })
                   .catch((err) => console.error(err));
               }}

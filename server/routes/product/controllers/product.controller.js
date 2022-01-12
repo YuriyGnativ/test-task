@@ -28,7 +28,7 @@ class ProductController {
       console.log(productData);
       await Products.create({
         name: productData.name,
-        image_url: productData.productData,
+        image_url: productData.image_url,
         count: productData.count,
         description: productData.description,
         weight: productData.weight,
@@ -44,10 +44,31 @@ class ProductController {
     }
   };
   editProductData = async (req, res) => {
-    res.send("edit product!");
+    const { id } = req.params;
+    const newData = req.body;
+
+    await Products.update(
+      { ...newData },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+    const products = await Products.findAll();
+    res.send({ products });
   };
   deleteProduct = async (req, res) => {
-    res.send("delete product!");
+    const { id } = req.params;
+    await Products.destroy({
+      where: {
+        id,
+      },
+    });
+    const products = await Products.findAll({});
+    res.send({
+      products,
+    });
   };
   addComment = async (req, res) => {
     res.send("addComment!");

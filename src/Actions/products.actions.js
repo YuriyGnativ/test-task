@@ -8,35 +8,66 @@ export const getAllProducts = () => async (dispatch) => {
 };
 
 export const addNewProduct = (data) => async (dispatch) => {
-  try {
-    const { products } = await fetch("/api/product/create", {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+  const { products } = await fetch("/api/product/create", {
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
     })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        return {
-          error: true,
-          message: "something went wrong",
-        };
-      });
-    dispatch({ type: "SET_PRODUCTS_DATA", payload: products });
-    return {
-      error: false,
-      message: null,
-    };
-  } catch (error) {
-    return {
-      error: true,
-      message: "error",
-    };
-  }
+    .catch((err) => {
+      console.error(err);
+      return {
+        error: true,
+        message: "Something went wrong...",
+      };
+    });
+  dispatch({ type: "SET_PRODUCTS_DATA", payload: products });
+  return {
+    error: false,
+    message: "",
+  };
+};
+
+export const deleteProduct = (id) => async (dispatch) => {
+  const { products } = await fetch(`/api/product/${id}/delete`, {
+    method: "delete",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  dispatch({ type: "SET_PRODUCTS_DATA", payload: products });
+};
+
+export const editProductData = (data) => async (dispatch) => {
+  const { products } = await fetch(`/api/product/${data.id}/edit`, {
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.error(err);
+      return {
+        error: true,
+        message: "Somethins went wrong...",
+      };
+    });
+  dispatch({ type: "SET_PRODUCTS_DATA", payload: products });
+  return {
+    error: false,
+    message: "",
+  };
 };
 
 export const getProduct = (id) => async (dispatch) => {};
