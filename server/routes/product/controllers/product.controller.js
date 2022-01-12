@@ -22,14 +22,32 @@ class ProductController {
     });
     res.send({ product, comments });
   };
+  createProduct = async (req, res) => {
+    const productData = req.body;
+    try {
+      console.log(productData);
+      await Products.create({
+        name: productData.name,
+        image_url: productData.productData,
+        count: productData.count,
+        description: productData.description,
+        weight: productData.weight,
+        size: productData.size,
+      });
+      const products = await Products.findAll();
+      res.send({ products });
+    } catch (error) {
+      res.send({
+        error: true,
+        message: error.name,
+      });
+    }
+  };
   editProductData = async (req, res) => {
     res.send("edit product!");
   };
   deleteProduct = async (req, res) => {
     res.send("delete product!");
-  };
-  createProduct = async (req, res) => {
-    res.send("create product!");
   };
   addComment = async (req, res) => {
     res.send("addComment!");
