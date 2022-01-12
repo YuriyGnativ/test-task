@@ -6,6 +6,8 @@ import rootReducer from "./Reducers/root.reducer";
 import createReduxStore from "./Store";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import "semantic-ui-css/semantic.min.css";
+
 const store = createReduxStore(rootReducer);
 
 ReactDOM.render(
