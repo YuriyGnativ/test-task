@@ -1,0 +1,11 @@
+.product-card {
+  margin: 12px 6px 0 6px;
+  width: calc(100% / 5 - 12px);
+  .image img {
+    height: auto;
+    width: 100%;
+  }
+  .card .ui.placeholder {
+    width: 100%;
+  }
+}

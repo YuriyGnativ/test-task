@@ -1,0 +1,15 @@
+.product-grid-container {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  margin-bottom: 25px !important;
+  align-items: flex-end;
+  & > * {
+    margin-bottom: 25px;
+  }
+  .product-cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -12px -6px;
+  }
+}
