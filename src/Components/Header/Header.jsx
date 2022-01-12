@@ -6,20 +6,14 @@ import "./header.scss";
 
 export default () => {
   return (
-    <header className="header">
-      <div className="container">
-        <Menu>
+    <header className="container header">
+      <Menu>
+        <Link to="/">
           <Menu.Item>
             <Header>Header</Header>
           </Menu.Item>
-          {/* <Menu.Item>
-            <Link to="/index">Grid View</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/profile/1">Single View</Link>
-          </Menu.Item> */}
-        </Menu>
-      </div>
+        </Link>
+      </Menu>
     </header>
   );
 };

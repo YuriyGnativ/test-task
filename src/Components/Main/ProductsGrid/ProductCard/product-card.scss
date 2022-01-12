@@ -8,4 +8,12 @@
   .card .ui.placeholder {
     width: 100%;
   }
+  .card-popup-menu {
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+    &:hover {
+      color: rgb(43, 40, 40);
+    }
+  }
 }

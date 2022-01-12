@@ -10,8 +10,8 @@ export default () => {
   return (
     <main className="main">
       <Routes>
-        <Route path="/" element={<Navigate from="/" to="/index" />} />
-        <Route path="/index" element={<ProductGrid />} />
+        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/" exact element={<ProductGrid />} />
         <Route path="/profile/:id" element={<SingleProductProfile />} />
       </Routes>
     </main>
