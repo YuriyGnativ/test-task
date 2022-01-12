@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 
-import One from "./One";
-import Two from "./Two";
+import SingleProductProfile from "./SingleProductProfile";
+import ProductGrid from "./ProductsGrid";
 
 import "./main.scss";
 
@@ -10,10 +10,10 @@ export default () => {
   return (
     <main className="main">
       <div className="container">
-        <Link to="/two">to two</Link> <Link to="/one">to one</Link>
+        <Link to="/index">grid</Link> <Link to="/profile">profile</Link>
         <Routes>
-          <Route path="/one" element={<One />} />
-          <Route path="/two" element={<Two />} />
+          <Route path="/index" element={<ProductGrid />} />
+          <Route path="/profile" element={<SingleProductProfile />} />
         </Routes>
       </div>
     </main>
