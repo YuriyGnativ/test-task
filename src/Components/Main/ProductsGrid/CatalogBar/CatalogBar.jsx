@@ -2,16 +2,15 @@ import React from "react";
 
 import { Menu, Icon, Dropdown } from "semantic-ui-react";
 
+import AddProductModal from "./AddProductModal";
+
 import "./catalog-bar.scss";
 
 export default () => {
   return (
     <div className="catalog-bar">
       <Menu>
-        <Menu.Item>
-          <Icon name="plus" />
-          Add
-        </Menu.Item>
+        <AddProductModal />
         {/* <Menu.Item>
           <Icon name="remove" />
           Remove
