@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 import "./product-card.scss";
 
-export default () => {
+export default ({ data }) => {
+  const { name, image_url, count, description } = data;
   return (
     <div className="product-card">
       <Card link>
@@ -32,27 +33,18 @@ export default () => {
           />
         </Card.Content>
         <Link to="/profile/1">
-          <Image
-            src="http://dummyimage.com/250x240.png/5fa2dd/ffffff"
-            wrapped
-            ui={false}
-          />
+          <Image src={image_url} wrapped ui={false} />
         </Link>
 
         <Card.Content>
-          <Card.Header>Product Name</Card.Header>
-          <Card.Meta>
-            <span className="date">added 13.13.13</span>
-          </Card.Meta>
-          <Card.Description>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur
-            ad impedit, velit cum deleniti obcaecati?
-          </Card.Description>
+          <Card.Header>{name}</Card.Header>
+
+          <Card.Description>{description}</Card.Description>
         </Card.Content>
         <Card.Content extra>
           <a>
             <Icon name="check" />
-            22 items
+            {count} items
           </a>
         </Card.Content>
       </Card>
