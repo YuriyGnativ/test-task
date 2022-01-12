@@ -13,38 +13,19 @@ const Products = sequelize.define(
     name: {
       type: DataTypes.STRING,
     },
-    available: {
-      type: DataTypes.BOOLEAN,
-    },
-    rating: {
-      type: DataTypes.INTEGER,
-    },
-    url: {
+    image_url: {
       type: DataTypes.STRING,
-      unique: true,
+    },
+    count: {
+      type: DataTypes.INTEGER,
     },
     description: {
       type: DataTypes.STRING,
     },
-    product_type: {
+    weight: {
       type: DataTypes.STRING,
     },
-    color: {
-      type: DataTypes.STRING,
-    },
-    price: {
-      type: DataTypes.INTEGER,
-    },
-    maker: {
-      type: DataTypes.STRING,
-    },
-    main_image: {
-      type: DataTypes.STRING,
-    },
-    data: {
-      type: DataTypes.JSONB,
-    },
-    image_set: {
+    size: {
       type: DataTypes.JSONB,
     },
   },

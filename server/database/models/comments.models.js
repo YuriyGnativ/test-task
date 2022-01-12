@@ -10,28 +10,21 @@ const Comments = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    inner_text: {
+    description: {
       type: DataTypes.STRING,
-    },
-    likes: {
-      type: DataTypes.INTEGER,
-    },
-    dislikes: {
-      type: DataTypes.INTEGER,
     },
   },
   {
-    timestamps: false,
     freezeTableName: true,
   }
 );
 
 Comments.belongsTo(Products, {
-  targetKey: "url",
+  targetKey: "id",
   foreignKey: {
-    name: "product_url",
+    name: "product_id",
   },
-  as: "url",
+  // as: "id",
 });
 
 module.exports = Comments;
