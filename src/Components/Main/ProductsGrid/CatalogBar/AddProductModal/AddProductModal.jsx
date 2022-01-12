@@ -1,8 +1,19 @@
 import React, { Component } from "react";
-import { Button, Modal, Icon, Form, Segment, Message } from "semantic-ui-react";
+import {
+  Button,
+  Modal,
+  Icon,
+  Form,
+  Segment,
+  Message,
+  Dropdown,
+  Label,
+  Input,
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Menu } from "semantic-ui-react";
+import { isURL, isNumeric } from "validator";
 
 import * as actions from "../../../../../Actions/products.actions";
 
@@ -18,7 +29,7 @@ export default connect(
       isFetching: false,
       nameField: {
         value: "",
-        error: null,
+        errors: null,
       },
       countField: {
         value: "",
@@ -34,7 +45,10 @@ export default connect(
       },
       weightField: {
         value: "",
-        errors: null,
+        errors: {
+          isError: false,
+          text: "",
+        },
       },
 
       messageField: {
@@ -44,12 +58,21 @@ export default connect(
     };
 
     handleChange = ({ target }) => {
-      this.setState({
-        [target.name]: {
-          error: null,
-          value: target.value,
-        },
-      });
+      if (target.name === "weightField") {
+        this.setState({
+          [target.name]: {
+            errors: { isError: false, text: "" },
+            value: target.value,
+          },
+        });
+      } else {
+        this.setState({
+          [target.name]: {
+            errors: null,
+            value: target.value,
+          },
+        });
+      }
     };
 
     validateFields = () => {
@@ -60,19 +83,65 @@ export default connect(
         weightField,
         imageLink,
       } = this.state;
+      console.log(this.state);
 
       return new Promise((resolve, reject) => {
-        if (
-          nameField.value === "" ||
-          countField.value === "" ||
-          descriptionField.value === "" ||
-          weightField.value === "" ||
-          imageLink.value === ""
-        ) {
+        if (!isURL(imageLink.value)) {
           this.setState({
-            messageField: {
-              hidden: false,
-              text: "One of the fields is empty",
+            imageLink: {
+              value: imageLink.value,
+              errors: {
+                content: "Please enter a valid link",
+                pointing: "above",
+              },
+            },
+          });
+          reject();
+        }
+        if (nameField.value.length <= 6 || !nameField.value) {
+          this.setState({
+            nameField: {
+              value: nameField.value,
+              errors: {
+                content: "Product name is too short or empty",
+                pointing: "above",
+              },
+            },
+          });
+          reject();
+        }
+        if (!isNumeric(countField.value)) {
+          this.setState({
+            countField: {
+              value: countField.value,
+              errors: {
+                content: "Counter must be a Number",
+                pointing: "above",
+              },
+            },
+          });
+          reject();
+        }
+        if (!Number(weightField.value) || !isNumeric(weightField.value)) {
+          this.setState({
+            weightField: {
+              value: weightField.value,
+              errors: {
+                isError: true,
+                text: "Value must be a Number",
+              },
+            },
+          });
+          reject();
+        }
+        if (descriptionField.value.length <= 55) {
+          this.setState({
+            descriptionField: {
+              value: descriptionField.value,
+              errors: {
+                content: "Description is too short or empty",
+                pointing: "above",
+              },
             },
           });
           reject();
@@ -125,7 +194,7 @@ export default connect(
             <Segment>
               <Form>
                 <Form.Field
-                  error={nameField.error}
+                  error={nameField.errors}
                   label="Product name"
                   control="input"
                   placeholder="Enter product name"
@@ -136,7 +205,7 @@ export default connect(
                     this.setState({
                       nameField: {
                         ...nameField,
-                        error: null,
+                        errors: null,
                       },
                       messageField: {
                         hidden: true,
@@ -146,7 +215,7 @@ export default connect(
                   }}
                 />
                 <Form.Field
-                  error={imageLink.error}
+                  error={imageLink.errors}
                   label="Image link"
                   control="input"
                   placeholder="Enter image link"
@@ -157,7 +226,7 @@ export default connect(
                     this.setState({
                       imageLink: {
                         ...imageLink,
-                        error: null,
+                        errors: null,
                       },
                       messageField: {
                         hidden: true,
@@ -187,27 +256,48 @@ export default connect(
                     });
                   }}
                 />
-                <Form.Field
-                  error={weightField.errors}
-                  label="Product weight"
-                  control="input"
-                  placeholder="Enter product weight"
-                  name="weightField"
-                  value={weightField.value}
-                  onChange={this.handleChange}
-                  onFocus={() => {
-                    this.setState({
-                      weightField: {
-                        ...weightField,
-                        errors: null,
-                      },
-                      messageField: {
-                        hidden: true,
-                        text: "",
-                      },
-                    });
-                  }}
-                />
+                <Form.Field error={weightField.errors.isError}>
+                  <label>Product weight</label>
+                  <Input
+                    label={
+                      <Dropdown
+                        defaultValue=".g"
+                        options={[
+                          { key: ".g", text: ".g", value: ".g" },
+                          { key: ".kg", text: ".kg", value: ".kg" },
+                          { key: ".lb", text: ".lb", value: ".lb" },
+                        ]}
+                      />
+                    }
+                    labelPosition="right"
+                    control="input"
+                    placeholder="Enter product weight"
+                    name="weightField"
+                    value={weightField.value}
+                    onChange={this.handleChange}
+                    onFocus={() => {
+                      this.setState({
+                        weightField: {
+                          ...weightField,
+                          errors: {
+                            isError: false,
+                            text: "",
+                          },
+                        },
+                        messageField: {
+                          hidden: true,
+                          text: "",
+                        },
+                      });
+                    }}
+                  />
+                  {weightField.errors.isError ? (
+                    <Label pointing="above" prompt>
+                      {weightField.errors.text}
+                    </Label>
+                  ) : null}
+                </Form.Field>
+
                 <Form.Field
                   error={descriptionField.errors}
                   label="Description"
@@ -250,29 +340,29 @@ export default connect(
               labelPosition="right"
               icon="checkmark"
               onClick={() => {
-                console.log("click");
                 this.validateFields()
                   .then((res) => {
-                    addNewProduct(res)
-                      .then((res) => res.json())
-                      .then(({ error, message }) => {
-                        if (error) {
-                          this.setState({
-                            isFetching: false,
-                            messageField: {
-                              hidden: false,
-                              text: message,
-                            },
-                          });
-                        } else {
-                          this.setState({
-                            isFetching: false,
-                            open: false,
-                          });
-                        }
-                      });
+                    console.log(res);
+                    // addNewProduct(res)
+                    //   .then((res) => res.json())
+                    //   .then(({ error, message }) => {
+                    //     if (error) {
+                    //       this.setState({
+                    //         isFetching: false,
+                    //         messageField: {
+                    //           hidden: false,
+                    //           text: message,
+                    //         },
+                    //       });
+                    //     } else {
+                    //       this.setState({
+                    //         isFetching: false,
+                    //         open: false,
+                    //       });
+                    //     }
+                    //   });
                   })
-                  .catch((err) => console.error(err));
+                  .catch((err) => console.error("sadasd", err));
               }}
               positive
             />
