@@ -78,11 +78,11 @@ export default connect(
           reject();
         }
         resolve({
-          name: nameField,
-          count: countField,
-          description: descriptionField,
-          weight: weightField,
-          image_url: imageLink,
+          name: nameField.value,
+          count: countField.value,
+          description: descriptionField.value,
+          weight: weightField.value,
+          image_url: imageLink.value,
           size: {
             width: 200,
             height: 500,
@@ -101,8 +101,9 @@ export default connect(
         imageLink,
         messageField,
         isFetching,
-        addNewProduct,
       } = this.state;
+
+      const { addNewProduct } = this.props;
       return (
         <Modal
           onClose={() => {
@@ -249,6 +250,7 @@ export default connect(
               labelPosition="right"
               icon="checkmark"
               onClick={() => {
+                console.log("click");
                 this.validateFields()
                   .then((res) => {
                     addNewProduct(res)
@@ -265,6 +267,7 @@ export default connect(
                         } else {
                           this.setState({
                             isFetching: false,
+                            open: false,
                           });
                         }
                       });
