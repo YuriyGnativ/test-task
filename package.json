@@ -25,6 +25,7 @@
     "frontend": "react-scripts start",
     "backend": "yarn --cwd ./server start",
     "start": "yarn concurrently \"yarn run backend\" \"yarn run frontend\"",
+    "setup": "yarn install && yarn --cwd ./server install",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
