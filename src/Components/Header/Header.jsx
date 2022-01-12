@@ -12,12 +12,12 @@ export default () => {
           <Menu.Item>
             <Header>Header</Header>
           </Menu.Item>
-          <Menu.Item>
+          {/* <Menu.Item>
             <Link to="/index">Grid View</Link>
           </Menu.Item>
           <Menu.Item>
             <Link to="/profile/1">Single View</Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </div>
     </header>
