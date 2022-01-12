@@ -44,7 +44,10 @@ export default connect(
         errors: null,
       },
       weightField: {
-        value: "",
+        value: {
+          num: "",
+          units: "",
+        },
         errors: {
           isError: false,
           text: "",
@@ -57,19 +60,23 @@ export default connect(
       },
     };
 
-    handleChange = ({ target }) => {
-      if (target.name === "weightField") {
+    handleChange = (e) => {
+      if (e.target.name === "weightField") {
+        console.log("target", e.target.value);
         this.setState({
-          [target.name]: {
+          [e.target.name]: {
             errors: { isError: false, text: "" },
-            value: target.value,
+            value: {
+              num: e.target.value,
+              units: e.target.nextElementSibling.innerText,
+            },
           },
         });
       } else {
         this.setState({
-          [target.name]: {
+          [e.target.name]: {
             errors: null,
-            value: target.value,
+            value: e.target.value,
           },
         });
       }
@@ -122,7 +129,11 @@ export default connect(
           });
           reject();
         }
-        if (!Number(weightField.value) || !isNumeric(weightField.value)) {
+        if (
+          !Number(weightField.value.num) ||
+          !isNumeric(weightField.value.num)
+        ) {
+          console.log("state", this.state);
           this.setState({
             weightField: {
               value: weightField.value,
@@ -148,9 +159,9 @@ export default connect(
         }
         resolve({
           name: nameField.value,
-          count: countField.value,
+          count: Number(countField.value),
           description: descriptionField.value,
-          weight: weightField.value,
+          weight: weightField.value.num + weightField.value.units,
           image_url: imageLink.value,
           size: {
             width: 200,
@@ -179,7 +190,41 @@ export default connect(
             this.setState({ open: false });
           }}
           onOpen={() => {
-            this.setState({ open: true });
+            this.setState({
+              open: true,
+              isFetching: false,
+              nameField: {
+                value: "",
+                errors: null,
+              },
+              countField: {
+                value: "",
+                errors: null,
+              },
+              imageLink: {
+                value: "",
+                errors: null,
+              },
+              descriptionField: {
+                value: "",
+                errors: null,
+              },
+              weightField: {
+                value: {
+                  num: "",
+                  units: "",
+                },
+                errors: {
+                  isError: false,
+                  text: "",
+                },
+              },
+
+              messageField: {
+                hidden: true,
+                text: "",
+              },
+            });
           }}
           open={open}
           trigger={
@@ -273,7 +318,7 @@ export default connect(
                     control="input"
                     placeholder="Enter product weight"
                     name="weightField"
-                    value={weightField.value}
+                    value={weightField.value.num}
                     onChange={this.handleChange}
                     onFocus={() => {
                       this.setState({
@@ -342,27 +387,28 @@ export default connect(
               onClick={() => {
                 this.validateFields()
                   .then((res) => {
-                    console.log(res);
-                    // addNewProduct(res)
-                    //   .then((res) => res.json())
-                    //   .then(({ error, message }) => {
-                    //     if (error) {
-                    //       this.setState({
-                    //         isFetching: false,
-                    //         messageField: {
-                    //           hidden: false,
-                    //           text: message,
-                    //         },
-                    //       });
-                    //     } else {
-                    //       this.setState({
-                    //         isFetching: false,
-                    //         open: false,
-                    //       });
-                    //     }
-                    //   });
+                    addNewProduct(res)
+                      // .then((res) => res.json())
+                      .then((res) => {
+                        const { error, message } = res;
+                        console.log(res);
+                        if (error) {
+                          this.setState({
+                            isFetching: false,
+                            messageField: {
+                              hidden: false,
+                              text: message,
+                            },
+                          });
+                        } else {
+                          this.setState({
+                            isFetching: false,
+                            open: false,
+                          });
+                        }
+                      });
                   })
-                  .catch((err) => console.error("sadasd", err));
+                  .catch((err) => console.error(err));
               }}
               positive
             />
