@@ -5,7 +5,7 @@
 -- Dumped from database version 13.4
 -- Dumped by pg_dump version 13.4
 
--- Started on 2022-01-12 15:26:36
+-- Started on 2022-01-13 05:06:38
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -131,9 +131,9 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 COPY public.comments (id, description, "createdAt", "updatedAt", product_id) FROM stdin;
 1	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	1
 2	askdjla sfksdajf laskdjf laksdfl sdf\n	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	1
-3	dsf adfg sdfg fh dfghfgdhdfgh	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	2
-4	dsf adfg sdfg fh dfghfgdhdfgh	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	2
-5	dsf adfg sdfg fh dfghfgdhdfgh	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	2
+3	dsf adfg sdfg fh dfghfgdhdfgh	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	\N
+4	dsf adfg sdfg fh dfghfgdhdfgh	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	\N
+5	dsf adfg sdfg fh dfghfgdhdfgh	2015-05-12 00:00:00+03	2015-05-12 00:00:00+03	\N
 \.
 
 
@@ -144,13 +144,13 @@ COPY public.comments (id, description, "createdAt", "updatedAt", product_id) FRO
 --
 
 COPY public.products (id, name, image_url, count, description, weight, size) FROM stdin;
-1	Aproduct1	http://dummyimage.com/250x240.png/5fa2dd/ffffff	1	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	5kg	{"width": 200, "height": 500}
-2	Bproduct	http://dummyimage.com/250x240.png/5fa2dd/ffffff	13	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	6kg	{"width": 180, "height": 100}
-3	Cproduct	http://dummyimage.com/250x240.png/5fa2dd/ffffff	11	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	10kg	{"width": 150, "height": 700}
-4	Dproduct	http://dummyimage.com/250x240.png/5fa2dd/ffffff	5	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	1kg	{"width": 200, "height": 100}
-7	asdasdas	\N	15	fsadfdsfsdf	dsafasdfasd	{"width": 200, "height": 500}
-8	sdafsadfasdf	\N	14	asdfsadfsadf	dsafasdfasdf	{"width": 200, "height": 500}
-9	sdafsadfasdf	\N	14	asdfsadfsadf	dsafasdfasdf	{"width": 200, "height": 500}
+1	BProduct	http://dummyimage.com/250x240.png/5dfgdfgdffa2dd/ffffff	2	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	4lb	{"width": 200, "height": 500}
+20	CProduct	http://dummyimage.com/250x240.png/5fa245dd/ffffff	1	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	4kg	{"width": 200, "height": 500}
+34	EProduct	http://dummyimage.com/250x240.png/5dfgdfgdffa2dd/ffffff	5	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	5lb	{"width": 200, "height": 500}
+33	DProduct	http://dummyimage.com/250x240.png/5dfgd64fgdffa2dd/ffffff	4	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	5lb	{"width": 200, "height": 500}
+32	AProduct	http://dummyimage.com/250x240.png/8dffa2dd/ffffff	3	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	5lb	{"width": 200, "height": 500}
+35	FProduct	http://dummyimage.com/250x240.png/2dfgdfgdffa2dd/ffffff	6	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	5lb	{"width": 200, "height": 500}
+36	KProduct	http://dummyimage.com/250x240.png/23dfgdfgdffa2dd/ffffff	7	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur\n            ad impedit, velit cum deleniti obcaecati?	5lb	{"width": 200, "height": 500}
 \.
 
 
@@ -169,7 +169,7 @@ SELECT pg_catalog.setval('public.comments_id_seq', 3, true);
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 9, true);
+SELECT pg_catalog.setval('public.products_id_seq', 36, true);
 
 
 --
@@ -199,7 +199,7 @@ ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
--- Completed on 2022-01-12 15:26:36
+-- Completed on 2022-01-13 05:06:38
 
 --
 -- PostgreSQL database dump complete
