@@ -16,29 +16,35 @@
   }
   .comment-content {
     width: 100%;
+    margin-left: 4px;
+    .comment-text {
+      display: inline-block;
+      max-width: 500px;
+      width: 100%;
+
+      background-color: rgba(185, 179, 179, 0.103);
+      padding: 7px;
+      color: rgb(58, 56, 56);
+      border-radius: 5px;
+    }
     .comment-header {
       display: flex;
+      margin-bottom: 5px;
       .username {
         font-weight: 900;
       }
-      .comment-rating {
+      .remove-comment {
+        color: crimson;
+        cursor: pointer;
         display: flex;
+        justify-content: center;
         align-items: center;
-        .comment-likes {
-          cursor: pointer;
-          color: rgba(27, 219, 27, 0.377);
-          &:hover {
-            color: rgba(21, 226, 21, 0.977);
-          }
-        }
-        .comment-dislikes {
-          cursor: pointer;
-          color: rgba(233, 13, 24, 0.616);
-          &:hover {
-            color: rgba(233, 13, 24, 0.916);
-          }
+        font-size: 1.2rem;
+        &:hover {
+          color: rgb(255, 0, 51);
         }
       }
+
       justify-content: space-between;
     }
   }

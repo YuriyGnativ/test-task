@@ -14,26 +14,38 @@ export default (state = initState, action) => {
         ...state,
         isFetching: true,
       };
-    case "SET_SINGLE_PRODUCT_DATA":
+    case "FETCH_SINGLE_PRODUCT_DATA_SUCCESS":
       return {
         ...state,
         singleProductData: action.payload,
         isFetching: false,
-        dataRdy: action.payload ? true : false,
+        dataRdy: true,
       };
+    case "FETCH_SINGLE_PRODUCT_DATA_FAILURE":
+      return {
+        ...state,
+        isFetching: false,
+        dataRdy: false,
+      };
+
     case "FETCH_COMMENTS":
       return {
         ...state,
         isCommentsFetching: true,
       };
-    case "SET_COMMENTS":
+    case "FETCH_COMMENTS_SUCCESS":
       return {
         ...state,
         comments: action.payload,
         isCommentsFetching: false,
-        commentsRdy: action.payload.length > 0 ? true : false,
+        commentsRdy: true,
       };
-
+    case "FETCH_COMMENTS_FAILURE":
+      return {
+        ...state,
+        commentsRdy: false,
+        isCommentsFetching: false,
+      };
     default:
       return state;
   }

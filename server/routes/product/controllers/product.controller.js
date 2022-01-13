@@ -8,14 +8,21 @@ class ProductController {
     res.json({ products });
   };
 
-  getProduct = async (req, res) => {
+  getProduct = async (req, res, next) => {
     const { id } = req.params;
     const product = await Products.findOne({
       where: {
         id,
       },
     });
-    res.send({ product });
+    if (product) {
+      res.send({ product });
+      next();
+    } else {
+      res
+        .status(404)
+        .send({ error: true, message: "such product doesn't exist" });
+    }
   };
 
   createProduct = async (req, res) => {
@@ -75,16 +82,18 @@ class ProductController {
         product_id: id,
       },
     });
-    res.send({ comments });
+    if (comments.length >= 1) {
+      res.send({ empty: false, comments });
+    } else {
+      res.send({ empty: true, comments: [] });
+    }
   };
 
   addComment = async (req, res) => {
     const { id } = req.params;
     const { description } = req.body;
-    console.log("product", id, description);
 
     const product = await Comments.findOne({ where: { product_id: id } });
-    console.log("product", product);
     if (product) {
       await Comments.create({
         product_id: id,

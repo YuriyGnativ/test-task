@@ -2,33 +2,47 @@ export const fetchSingleProductData = (id) => async (dispatch) => {
   dispatch({
     type: "FETCH_SINGLE_PRODUCT_DATA",
   });
-  const { product } = await fetch(`/api/product/${id}`)
+  const { product, error } = await fetch(`/api/product/${id}`)
     .then((res) => res.json())
     .catch((err) => console.error(err));
-  dispatch({
-    type: "SET_SINGLE_PRODUCT_DATA",
-    payload: product,
-  });
+  if (!error) {
+    dispatch({
+      type: "FETCH_SINGLE_PRODUCT_DATA_SUCCESS",
+      payload: product,
+    });
+  } else {
+    dispatch({
+      type: "FETCH_SINGLE_PRODUCT_DATA_FAILURE",
+    });
+  }
 };
 
 export const fetchComments = (id) => async (dispatch) => {
   dispatch({
     type: "FETCH_COMMENTS",
   });
-  const { comments } = await fetch(`/api/product/${id}/comments`)
+  const { comments, empty } = await fetch(`/api/product/${id}/comments`)
     .then((res) => res.json())
     .catch((err) => console.error(err));
-  dispatch({
-    type: "SET_COMMENTS",
-    payload: comments,
-  });
+  console.log(comments, empty);
+  if (!empty) {
+    dispatch({
+      type: "FETCH_COMMENTS_SUCCESS",
+      payload: comments,
+    });
+  } else {
+    dispatch({
+      type: "FETCH_COMMENTS_FAILURE",
+      payload: comments,
+    });
+  }
 };
 
 export const addComment = (data) => async (dispatch) => {
   dispatch({
     type: "FETCH_COMMENTS",
   });
-  const { comments } = await fetch(`/api/product/${id}/addComment`, {
+  const { comments } = await fetch(`/api/product/${data.id}/addComment`, {
     method: "post",
     headers: {
       Accept: "application/json",
@@ -48,7 +62,7 @@ export const deleteComment = (data) => async (dispatch) => {
   dispatch({
     type: "FETCH_COMMENTS",
   });
-  const { comments } = await fetch(`/api/product/${id}/deletecomment`, {
+  const { comments } = await fetch(`/api/product/${data.id}/deletecomment`, {
     method: "delete",
     headers: {
       Accept: "application/json",
