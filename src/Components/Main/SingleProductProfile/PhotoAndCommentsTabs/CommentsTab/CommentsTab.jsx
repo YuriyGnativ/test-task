@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "../../../../../Actions/singleProduct.actions";
-import { Tab, Icon, Segment, Loader, Dimmer } from "semantic-ui-react";
+import { Tab, Icon, Segment, Loader, Dimmer, Form } from "semantic-ui-react";
 import Comment from "./Comment";
 
 import "./comments-tab.scss";
@@ -23,9 +23,16 @@ const CommentsTab = connect(
       const { commentsRdy, isCommentsFetching, comments } = this.props;
       return !isCommentsFetching ? (
         commentsRdy ? (
-          comments.map((i, index) => {
-            return <Comment key={index} data={i} />;
-          })
+          <>
+            <Segment>
+              <Form>
+                <Form.Field />
+              </Form>
+            </Segment>
+            {comments.map((i, index) => {
+              return <Comment key={index} data={i} />;
+            })}
+          </>
         ) : (
           <div className="comments-placeholder">
             <Icon name="conversation" size="huge" />
