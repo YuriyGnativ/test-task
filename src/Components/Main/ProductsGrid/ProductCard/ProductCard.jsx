@@ -14,7 +14,7 @@ export default connect(
   () => ({}),
   (dispatch) => ({ ...bindActionCreators(actions, dispatch) })
 )(({ data, deleteProduct, editProductData }) => {
-  const { name, image_url, count, description } = data;
+  const { name, image_url, count, description, id } = data;
   const [open, setOpen] = React.useState(false);
   return (
     <div className="product-card">
@@ -73,7 +73,7 @@ export default connect(
             }
           />
         </Card.Content>
-        <Link to="/profile/1">
+        <Link to={`/profile/${data.id}`}>
           {image_url ? (
             <Image src={image_url} wrapped ui={false} />
           ) : (

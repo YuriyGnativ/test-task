@@ -76,5 +76,3 @@ export const setSortKey = (key) => {
     payload: key,
   };
 };
-
-export const getProduct = (id) => async (dispatch) => {};

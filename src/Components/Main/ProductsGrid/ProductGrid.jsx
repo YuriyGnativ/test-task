@@ -55,9 +55,7 @@ export default connect(
                     margin: "12px 20px 0px 10px",
                   }}
                 >
-                  {/* <div className="placeholder-block"> */}
                   <h1>No data yet</h1>
-                  {/* </div> */}
                 </Segment>
               )}
             </div>
