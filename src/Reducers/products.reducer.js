@@ -2,10 +2,14 @@ const initState = {
   data: [],
   dataRdy: false,
   isFetching: false,
+  sortedBy: "default",
 };
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case "SET_SORT_KEY":
+      return { ...state, sortedBy: action.payload };
+
     case "ADD_NEW_PRODUCT":
       return state;
     case "FETCH_PRODUCTS_DATA":

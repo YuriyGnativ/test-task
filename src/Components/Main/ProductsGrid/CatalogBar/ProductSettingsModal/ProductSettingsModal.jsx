@@ -12,7 +12,6 @@ import {
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Menu } from "semantic-ui-react";
 import { isURL, isNumeric } from "validator";
 
 import * as actions from "../../../../../Actions/products.actions";

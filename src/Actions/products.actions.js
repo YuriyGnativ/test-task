@@ -70,4 +70,11 @@ export const editProductData = (data) => async (dispatch) => {
   };
 };
 
+export const setSortKey = (key) => {
+  return {
+    type: "SET_SORT_KEY",
+    payload: key,
+  };
+};
+
 export const getProduct = (id) => async (dispatch) => {};
