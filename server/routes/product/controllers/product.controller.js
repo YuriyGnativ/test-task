@@ -93,15 +93,19 @@ class ProductController {
     const { id } = req.params;
     const { description } = req.body;
 
-    const product = await Comments.findOne({ where: { product_id: id } });
+    const product = await Products.findOne({ where: { id } });
     if (product) {
       await Comments.create({
         product_id: id,
         description,
       }).catch((error) => console.error("error here", error));
-      const comments = await Comments.findAll();
+      const comments = await Comments.findAll({
+        where: {
+          product_id: id,
+        },
+      });
 
-      res.send({ comments });
+      res.send({ comments, error: false });
     } else {
       res
         .status(404)
@@ -118,9 +122,9 @@ class ProductController {
         product_id: id,
       },
     });
-    const comments = await Comments.findAll();
+    const comments = await Comments.findAll({ where: { product_id: id } });
 
-    res.send({ comments });
+    res.send({ comments, error: false });
   };
 }
 

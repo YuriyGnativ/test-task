@@ -32,6 +32,11 @@
       margin-bottom: 5px;
       .username {
         font-weight: 900;
+        span {
+          font-size: 9px;
+          margin-left: 6px;
+          color: rgba(88, 88, 88, 0.438);
+        }
       }
       .remove-comment {
         color: crimson;

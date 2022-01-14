@@ -5,6 +5,8 @@ const initState = {
   commentsRdy: false,
   dataRdy: false,
   isFetching: false,
+  postingComment: false,
+  deletingComment: false,
 };
 
 export default (state = initState, action) => {
@@ -39,12 +41,27 @@ export default (state = initState, action) => {
         comments: action.payload,
         isCommentsFetching: false,
         commentsRdy: true,
+        postingComment: false,
+        deletingComment: false,
       };
     case "FETCH_COMMENTS_FAILURE":
       return {
         ...state,
+        comments: action.payload,
         commentsRdy: false,
         isCommentsFetching: false,
+        postingComment: false,
+        deletingComment: false,
+      };
+    case "ADD_COMMENT":
+      return {
+        ...state,
+        postingComment: true,
+      };
+    case "DELETE_COMMENT":
+      return {
+        ...state,
+        deletingComment: true,
       };
     default:
       return state;

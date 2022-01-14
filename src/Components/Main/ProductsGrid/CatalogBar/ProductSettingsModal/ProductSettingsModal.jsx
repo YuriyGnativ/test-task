@@ -62,51 +62,45 @@ export default connect(
       const { currentData } = this.props;
 
       if (currentData) {
-        this.setState(
-          {
-            open: false,
-            isFetching: false,
-            nameField: {
-              value: currentData.name,
-              errors: null,
+        this.setState({
+          open: false,
+          isFetching: false,
+          nameField: {
+            value: currentData.name,
+            errors: null,
+          },
+          countField: {
+            value: String(currentData.count),
+            errors: null,
+          },
+          imageLink: {
+            value: currentData.image_url,
+            errors: null,
+          },
+          descriptionField: {
+            value: currentData.description,
+            errors: null,
+          },
+          weightField: {
+            value: {
+              num: currentData.weight.match(/^\d+/)[0],
+              units: "." + currentData.weight.match(/\D+/)[0],
             },
-            countField: {
-              value: String(currentData.count),
-              errors: null,
-            },
-            imageLink: {
-              value: currentData.image_url,
-              errors: null,
-            },
-            descriptionField: {
-              value: currentData.description,
-              errors: null,
-            },
-            weightField: {
-              value: {
-                num: currentData.weight.match(/^\d+/)[0],
-                units: "." + currentData.weight.match(/\D+/)[0],
-              },
-              errors: {
-                isError: false,
-                text: "",
-              },
-            },
-            messageField: {
-              hidden: true,
+            errors: {
+              isError: false,
               text: "",
             },
           },
-          () => {
-            console.log(this.state);
-          }
-        );
+          messageField: {
+            hidden: true,
+            text: "",
+          },
+        });
       }
     }
 
     handleChange = (e) => {
       if (e.target.name === "weightField") {
-        console.log("target", e.target.value);
         this.setState({
           [e.target.name]: {
             errors: { isError: false, text: "" },
@@ -199,8 +193,7 @@ export default connect(
           });
           reject();
         }
-        console.log(weightField.value.units.match(/\w+/)[0]);
-        console.log("current data:", this.state);
+
         this.props.currentData
           ? resolve({
               id: this.props.currentData.id || null,
@@ -337,23 +330,17 @@ export default connect(
                     label={
                       <Dropdown
                         onChange={(e) => {
-                          console.log(e);
-                          this.setState(
-                            {
-                              weightField: {
-                                value: {
-                                  num: weightField.value.num,
-                                  units: e.target.innerText,
-                                },
-                                errors: {
-                                  ...weightField.errors,
-                                },
+                          this.setState({
+                            weightField: {
+                              value: {
+                                num: weightField.value.num,
+                                units: e.target.innerText,
+                              },
+                              errors: {
+                                ...weightField.errors,
                               },
                             },
-                            () => {
-                              console.log(this.state);
-                            }
-                          );
+                          });
                         }}
                         defaultValue={weightField.value.units}
                         options={[
