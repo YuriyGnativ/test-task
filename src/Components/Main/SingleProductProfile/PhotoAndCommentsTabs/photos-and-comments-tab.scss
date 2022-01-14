@@ -2,3 +2,9 @@
   max-width: 50%;
   flex: 1;
 }
+
+@media screen and (max-width: 768px) {
+  .product-page-tabs-holder {
+    max-width: 100%;
+  }
+}

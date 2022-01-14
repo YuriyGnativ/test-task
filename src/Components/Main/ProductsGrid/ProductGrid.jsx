@@ -9,6 +9,7 @@ import CatalogBar from "./CatalogBar";
 import ProductCard from "./ProductCard";
 
 import "./product-grid.scss";
+import { v4 } from "uuid";
 
 const sortBy = (data, sortedBy) => {
   switch (sortedBy) {
@@ -42,7 +43,7 @@ export default connect(
             <div className="product-cards">
               {dataRdy && data.length > 0 ? (
                 data.map((i, index) => {
-                  return <ProductCard data={i} key={index} />;
+                  return <ProductCard data={i} key={v4()} />;
                 })
               ) : (
                 <Segment

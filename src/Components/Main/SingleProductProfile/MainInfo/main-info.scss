@@ -2,3 +2,10 @@
   margin-left: 15px;
   flex: 1;
 }
+
+@media screen and (max-width: 768px) {
+  .main-info-container {
+    margin-left: 0;
+    margin-top: 15px;
+  }
+}

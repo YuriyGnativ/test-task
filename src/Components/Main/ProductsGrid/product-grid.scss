@@ -23,3 +23,11 @@
   flex: 1 1 auto;
   position: relative;
 }
+
+@media screen and (max-width: 390px) {
+  .product-grid-container {
+    .product-cards {
+      margin: 0;
+    }
+  }
+}

@@ -4,3 +4,9 @@
   margin-top: 25px;
   margin-bottom: 25px;
 }
+
+@media screen and (max-width: 768px) {
+  .container.single-product-profile {
+    flex-direction: column;
+  }
+}

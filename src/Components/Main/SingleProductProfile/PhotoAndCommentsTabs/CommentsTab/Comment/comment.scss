@@ -21,7 +21,7 @@
       display: inline-block;
       max-width: 500px;
       width: 100%;
-
+      word-break: break-word;
       background-color: rgba(185, 179, 179, 0.103);
       padding: 7px;
       color: rgb(58, 56, 56);
@@ -52,5 +52,11 @@
 
       justify-content: space-between;
     }
+  }
+}
+
+@media screen and (max-width: 758px) {
+  .comment-wrap .comment-content .comment-text {
+    max-width: 100%;
   }
 }

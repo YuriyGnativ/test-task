@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "../../../../../Actions/singleProduct.actions";
-import { Tab, Icon, Segment, Loader, Dimmer, Button } from "semantic-ui-react";
+import { Tab, Icon, Loader, Dimmer, Button } from "semantic-ui-react";
 import Comment from "./Comment";
+import { v4 } from "uuid";
 
 import "./comments-tab.scss";
 import AddCommentWidget from "./AddCommentWidget";
@@ -33,7 +34,7 @@ const CommentsTab = connect(
           <>
             <AddCommentWidget />
             {comments.reverse().map((i, index) => {
-              return <Comment key={index} data={i} />;
+              return <Comment key={v4()} data={i} />;
             })}
           </>
         ) : (

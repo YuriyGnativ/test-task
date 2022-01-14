@@ -24,3 +24,30 @@
     color: rgb(131, 109, 109);
   }
 }
+
+@media screen and (max-width: 1200px) {
+  .product-card {
+    width: calc(100% / 4 - 12px);
+  }
+}
+@media screen and (max-width: 768px) {
+  .product-card {
+    width: calc(100% / 3 - 12px);
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .product-card {
+    width: calc(100% / 2 - 12px);
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .product-card {
+    width: 100%;
+    margin: 0 0 12px;
+    .ui.card {
+      width: 100%;
+    }
+  }
+}

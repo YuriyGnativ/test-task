@@ -36,7 +36,7 @@ export default connect(
             onOpen={() => {
               setOpen(true);
             }}
-            position="bottom center"
+            position="bottom right"
             content={
               <List divided relaxed>
                 <List.Item
